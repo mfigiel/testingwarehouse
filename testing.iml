@@ -30,7 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/programowanie/Java/webstore microservice/webstore-transfer/target/webstore-transfer-0.0.1-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../webstore microservice/webstore-transfer/target/webstore-transfer-0.0.1-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
