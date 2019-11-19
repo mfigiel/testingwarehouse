@@ -26,3 +26,4 @@ hs_err_pid*
 libraries
 /.idea/libraries
 /.idea/libraries
+/.idea/libraries/*.xml
