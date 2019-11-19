@@ -3,6 +3,7 @@ package com.testing.api.controller;
 import com.testing.api.mapping.ProductApiProductMapperImpl;
 import com.testing.api.resource.ProductApi;
 import com.testing.repository.ProductRepository;
+import com.testing.repository.entity.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,14 @@ public class ProductController {
     public ProductApi getProductInformation(@PathVariable("id") long id) {
         Optional<ProductApi> product = Optional.ofNullable(productApiProductMapper.productDtoToProductApi(productRepository.findById(id)));
         return product.get();
+    }
+
+    @RequestMapping(value = "/productpurchased/{id}", method = RequestMethod.GET)
+    public ProductApi buyProduct(@PathVariable("id") long id) {
+        Product product = productRepository.findById(id).get();
+        product.setUnitsInOrder(product.getUnitsInOrder()-1);
+        productRepository.save(product);
+        return new ProductApi();
     }
 
 }
