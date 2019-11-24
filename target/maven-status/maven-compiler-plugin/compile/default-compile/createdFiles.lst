@@ -3,6 +3,7 @@ com\testing\api\integration\WarehouseClient.class
 com\testing\services\impl\ICustomerServiceImpl.class
 com\testing\logging\LoggableResource.class
 metrics\service\MappingMetricsImpl$Mapper.class
+com\testing\services\ProductService.class
 com\testing\services\impl\IProductServiceImpl$1.class
 com\testing\api\mapping\ProductApiProductMapper.class
 com\testing\logging\Loggable.class

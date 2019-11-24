@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Mapper(componentModel = "ProductApiProductMapper")
 public interface ProductApiProductMapper {
-    ProductApi productDtoToProductApi(Optional<Product> source);
+    ProductApi productDtoToProductApi(Product source);
     Product productApiToProductDto(ProductApi source);
 }
 

@@ -2,23 +2,30 @@ package com.testing.api.mapping;
 
 import com.testing.api.resource.ProductApi;
 import com.testing.repository.entity.Product;
-import java.util.Optional;
 import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-11-19T19:43:13+0100",
+    date = "2019-11-24T16:26:55+0100",
     comments = "version: 1.3.0.Beta2, compiler: javac, environment: Java 1.8.0_221 (Oracle Corporation)"
 )
 public class ProductApiProductMapperImpl implements ProductApiProductMapper {
 
     @Override
-    public ProductApi productDtoToProductApi(Optional<Product> source) {
+    public ProductApi productDtoToProductApi(Product source) {
         if ( source == null ) {
             return null;
         }
 
         ProductApi productApi = new ProductApi();
+
+        productApi.setId( source.getId() );
+        productApi.setName( source.getName() );
+        productApi.setUnitPrice( source.getUnitPrice() );
+        productApi.setDescription( source.getDescription() );
+        productApi.setCategory( source.getCategory() );
+        productApi.setUnitsInStock( source.getUnitsInStock() );
+        productApi.setUnitsInOrder( source.getUnitsInOrder() );
 
         return productApi;
     }
