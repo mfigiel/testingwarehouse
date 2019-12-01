@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProductApi {
+public class ClientApi {
 
-    public ProductApi(){};
+    public ClientApi(){};
 
     @NotNull
     private long id;
