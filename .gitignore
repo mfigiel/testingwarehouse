@@ -2,7 +2,7 @@
 *.class
 *.xml
 /target
-/.idea
+.idea
 
 # Log file
 *.log
