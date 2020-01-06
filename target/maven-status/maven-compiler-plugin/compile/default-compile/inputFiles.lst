@@ -9,12 +9,12 @@ D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\metrics\
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\api\integration\WarehouseClient.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\logging\LoggableResource.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\services\ICustomerService.java
+D:\programowanie\Java\remote\testingwarehouse\src\main\java\metrics\service\Metrics.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\metrics\service\CounterService.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\metrics\service\CounterServiceLegacyWrapperImpl.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\metrics\service\MappingMetricsImpl.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\services\impl\IOrderServiceImpl.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\services\IProductService.java
-D:\programowanie\Java\remote\testingwarehouse\src\main\java\metrics\service\MappingMetrics.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\api\resource\ProductApi.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\repository\entity\Product.java
 D:\programowanie\Java\remote\testingwarehouse\src\main\java\com\testing\TestingApplication.java
