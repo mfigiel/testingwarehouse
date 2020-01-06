@@ -5,36 +5,20 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class MappingMetricsImpl implements MappingMetrics {
+public class MappingMetricsImpl {
 
     @Autowired
     private CounterService counterService;
 
     private static final String PREFIX = "mapper.";
-    private static final String DELIMITER = ".";
+    private static final String withId = " with id:";
 
-    public void increment(Mapper mapperName, Integer applicantOrder, Result result) {
-        String applicant = applicantOrder == 1 ? "firstApplicant" : "secondApplicant";
-        counterService.increment(PREFIX + mapperName.toString() + DELIMITER + applicant + DELIMITER + result.toString());
-        counterService.increment(PREFIX + mapperName.toString() + DELIMITER + applicant + DELIMITER + Result.TOTAL.toString());
+    public void increment(Metrics mapperName, Long id) {
+        counterService.increment(PREFIX.concat(mapperName.toString()).concat(withId) + id);
     }
 
-    public enum Mapper {
-        ARVATO_SCORE("arvatoScore"),
-        ARVATO_ADDRESS("arvatoAddress"),
-        ARVATO_BIG_PERSON_SCORE("arvatoBigPersonScore"),
-        COMMON_SCORE("commonScore");
-
-        private String stringValue;
-
-        Mapper(String stringValue) {
-            this.stringValue = stringValue;
-        }
-
-        @Override
-        public String toString() {
-            return stringValue;
-        }
+    public void increment(Metrics mapperName) {
+        counterService.increment(PREFIX + mapperName.toString());
     }
 
     public enum Result {
