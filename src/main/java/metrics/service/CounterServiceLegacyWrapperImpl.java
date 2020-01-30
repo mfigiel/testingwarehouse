@@ -15,9 +15,4 @@ public class CounterServiceLegacyWrapperImpl implements CounterService {
     public void increment(String name) {
         meterRegistry.counter(name, Tags.empty()).increment();
     }
-
-    @Override
-    public void increment(String name, long id) {
-            meterRegistry.counter(name, String.valueOf(id)).increment();
-    }
 }
