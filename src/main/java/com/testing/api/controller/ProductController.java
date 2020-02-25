@@ -21,7 +21,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    void addProduct(@RequestBody ProductApi product) {
+    public void addProduct(@RequestBody ProductApi product) {
         productService.addProduct(product);
     }
 
