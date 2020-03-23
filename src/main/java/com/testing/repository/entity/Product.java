@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String name;
     private BigDecimal unitPrice;
     private String description;
@@ -21,11 +21,11 @@ public class Product {
     private String condition;
     private String withdrawn;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

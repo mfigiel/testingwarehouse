@@ -15,7 +15,7 @@ public class ProductApi {
     public ProductApi(){};
 
     @NotNull
-    private long id;
+    private Long id;
     @NotNull
     private String name;
     @NotNull

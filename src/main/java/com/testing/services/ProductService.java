@@ -19,23 +19,33 @@ public class ProductService {
     ProductApiProductMapperImpl productApiProductMapper = new ProductApiProductMapperImpl();
 
     public List<ProductApi> getProducts() {
-        return (List) productRepository.findAll();
+        return productApiProductMapper.clientListToClientApiList((List) productRepository.findAll());
     }
 
-    public void addProduct(ProductApi product) {
-        productRepository.save(productApiProductMapper.productApiToProductDto(product));
+    public ProductApi addProduct(ProductApi product) {
+        Product productDto = productApiProductMapper.productApiToProductDto(product);
+        productRepository.save(productDto);
+        return productApiProductMapper.productDtoToProductApi(productDto);
     }
 
     public ProductApi getProduct(long id) {
-        return productApiProductMapper.productDtoToProductApi(Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("product id: " + id))));
+        Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("client id: " + id)));
+
+        return productApiProductMapper.productDtoToProductApi(product.get());
+    }
+
+    public Product getProductDto(long id) {
+        Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("client id: " + id)));
+
+        return product.get();
     }
 
     public ProductApi buyProduct(long id) {
-        Product product = productRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("product id: " + id));
+        Product product = getProductDto(id);
         product.setUnitsInStock(product.getUnitsInStock() - 1);
         productRepository.save(product);
-        return productApiProductMapper.productDtoToProductApi(Optional.ofNullable(product));
+        return productApiProductMapper.productDtoToProductApi(product);
     }
 }

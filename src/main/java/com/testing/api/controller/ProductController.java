@@ -21,11 +21,11 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public void addProduct(@RequestBody ProductApi product) {
-        productService.addProduct(product);
+    public ProductApi addProduct(@RequestBody ProductApi product) {
+        return productService.addProduct(product);
     }
 
-    @RequestMapping(value = "/productinformation/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     public ProductApi getProductInformation(@PathVariable("id") long id) {
         return productService.getProduct(id);
     }
