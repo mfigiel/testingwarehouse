@@ -27,7 +27,7 @@ public class SampleProductData {
 
     public Product getTestProduct() {
         Product product = new Product();
-        product.setDiscontinued(false);
+        product.setSoldOut(false);
         product.setCategory(CATEGORY);
         product.setDescription(DESCRIPTION);
         product.setName(NAME);

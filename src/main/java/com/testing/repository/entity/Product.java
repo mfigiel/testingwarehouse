@@ -17,9 +17,7 @@ public class Product {
     private String category;
     private Long unitsInStock;
     private Long unitsInOrder;
-    private boolean discontinued;
-    private String condition;
-    private String withdrawn;
+    private boolean soldOut;
 
     public Long getId() {
         return id;
@@ -77,27 +75,11 @@ public class Product {
         this.unitsInOrder = unitsInOrder;
     }
 
-    public boolean isDiscontinued() {
-        return discontinued;
+    public boolean isSoldOut() {
+        return soldOut;
     }
 
-    public void setDiscontinued(boolean discontinued) {
-        this.discontinued = discontinued;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public String getWithdrawn() {
-        return withdrawn;
-    }
-
-    public void setWithdrawn(String withdrawn) {
-        this.withdrawn = withdrawn;
+    public void setSoldOut(boolean soldOut) {
+        this.soldOut = soldOut;
     }
 }

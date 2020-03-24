@@ -1,6 +1,7 @@
 package com.testing.controller;
 
 import com.testing.api.resource.ProductApi;
+import com.testing.logging.Exceptions.SoldOutException;
 import com.testing.repository.ProductRepository;
 import com.testing.repository.entity.Product;
 import com.testing.sampleDataForTests.SampleProductData;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,15 +82,18 @@ public class ProductControllerTest {
     @Test
     public void getProducts() {
         // act
-
-        productRepository.save(sampleProductData.getTestProduct());
-        productRepository.save(sampleProductData.getTestProduct());
-        ResponseEntity<List<ProductApi>> clientsFromDb = testRestTemplate.exchange(HTTP_LOCALHOST + port + "/products",  HttpMethod.GET, null, new ParameterizedTypeReference<List<ProductApi>>() {
+        Product product1 = productRepository.save(sampleProductData.getTestProduct());
+        Product product2 = productRepository.save(sampleProductData.getTestProduct());
+        ResponseEntity<List<ProductApi>> clientsFromDb = testRestTemplate.exchange(HTTP_LOCALHOST + port + "/products", HttpMethod.GET, null, new ParameterizedTypeReference<List<ProductApi>>() {
         });
 
         // assert
         assertThat(clientsFromDb.getBody().size() > 0);
-        ProductApi productApi = clientsFromDb.getBody().get(0);
+        List<ProductApi> productApiList = clientsFromDb.getBody();
+        ProductApi productApi = productApiList.stream()
+                .filter(prod -> prod.getId() == product1.getId())
+                .findFirst()
+                .orElse(null);
         assertEquals(productApi.getName(), "sampleName");
         assertEquals(productApi.getCategory(), "sampleCategory");
         assertEquals(productApi.getDescription(), "sampleDescription");
@@ -97,8 +101,10 @@ public class ProductControllerTest {
         assertEquals(Optional.of(productApi.getUnitsInOrder()).get(), Optional.of(20L).get());
         assertEquals(Optional.of(productApi.getUnitsInStock()).get(), Optional.of(50L).get());
 
-
-        ProductApi secondProduct = clientsFromDb.getBody().get(1);
+        ProductApi secondProduct = productApiList.stream()
+                .filter(prod -> prod.getId() == product2.getId())
+                .findFirst()
+                .orElse(null);
         assertEquals(secondProduct.getName(), "sampleName");
         assertEquals(secondProduct.getCategory(), "sampleCategory");
         assertEquals(secondProduct.getDescription(), "sampleDescription");
@@ -110,18 +116,61 @@ public class ProductControllerTest {
     @Test
     public void addProduct() {
         // act
-        ProductApi client = sampleProductData.getTestProductApi();
-        ProductApi addedClient = testRestTemplate.postForObject(HTTP_LOCALHOST + port + "/products", client, ProductApi.class);
+        ProductApi productApi = sampleProductData.getTestProductApi();
+        ProductApi addedProduct = testRestTemplate.postForObject(HTTP_LOCALHOST + port + "/products", productApi, ProductApi.class);
 
-        Optional<Product> clientFromDb = productRepository.findById(addedClient.getId());
+        Optional<Product> productFromDb = productRepository.findById(addedProduct.getId());
 
-        Product productApi = clientFromDb.get();
+        Product product = productFromDb.get();
         // assert
-        assertEquals(productApi.getName(), "sampleName");
-        assertEquals(productApi.getCategory(), "sampleCategory");
-        assertEquals(productApi.getDescription(), "sampleDescription");
-        assertEquals(productApi.getUnitPrice().intValue(), 10);
-        assertEquals(Optional.of(productApi.getUnitsInOrder()).get(), Optional.of(20L).get());
-        assertEquals(Optional.of(productApi.getUnitsInStock()).get(), Optional.of(50L).get());
+        assertEquals(product.getName(), "sampleName");
+        assertEquals(product.getCategory(), "sampleCategory");
+        assertEquals(product.getDescription(), "sampleDescription");
+        assertEquals(product.getUnitPrice().intValue(), 10);
+        assertEquals(Optional.of(product.getUnitsInOrder()).get(), Optional.of(20L).get());
+        assertEquals(Optional.of(product.getUnitsInStock()).get(), Optional.of(50L).get());
     }
+
+    @Test
+    public void buyProduct() throws Exception {
+        // act
+        ProductApi productApi = sampleProductData.getTestProductApi();
+        productApi.setUnitsInStock(1L);
+        productApi.setUnitsInOrder(0L);
+        ProductApi addedProduct = testRestTemplate.postForObject(HTTP_LOCALHOST + port + "/products", productApi, ProductApi.class);
+
+        Optional<Product> productFromDb = productRepository.findById(addedProduct.getId());
+
+        Product product = productFromDb.get();
+        // assert
+        assertEquals(product.getName(), "sampleName");
+        assertEquals(product.getCategory(), "sampleCategory");
+        assertEquals(product.getDescription(), "sampleDescription");
+        assertEquals(product.getUnitPrice().intValue(), 10);
+        assertEquals(Optional.of(product.getUnitsInOrder()).get(), Optional.of(0L).get());
+        assertEquals(Optional.of(product.getUnitsInStock()).get(), Optional.of(1L).get());
+        assertEquals(product.isSoldOut(), false);
+
+
+        testRestTemplate.getForObject(HTTP_LOCALHOST + port + "/buyProduct/".concat(product.getId().toString()), ProductApi.class);
+
+        Optional<Product> productBought = productRepository.findById(addedProduct.getId());
+
+        Product productSouldOut = productBought.get();
+        // assert
+        assertEquals(productSouldOut.getId(), product.getId());
+        assertEquals(productSouldOut.getName(), "sampleName");
+        assertEquals(productSouldOut.getCategory(), "sampleCategory");
+        assertEquals(productSouldOut.getDescription(), "sampleDescription");
+        assertEquals(productSouldOut.getUnitPrice().intValue(), 10);
+        assertEquals(Optional.of(productSouldOut.getUnitsInOrder()).get(), Optional.of(1L).get());
+        assertEquals(Optional.of(productSouldOut.getUnitsInStock()).get(), Optional.of(0L).get());
+        assertEquals(productSouldOut.isSoldOut(), true);
+
+            mockMvc.perform(get("/buyProduct", productSouldOut.getId())
+                            .param("id", productSouldOut.getId().toString()))
+                    .andExpect(status().is4xxClientError());
+    }
+
 }
+

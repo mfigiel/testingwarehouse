@@ -2,6 +2,7 @@ package com.testing.services;
 
 import com.testing.api.mapping.ProductApiProductMapperImpl;
 import com.testing.api.resource.ProductApi;
+import com.testing.logging.Exceptions.SoldOutException;
 import com.testing.repository.ProductRepository;
 import com.testing.repository.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,14 @@ public class ProductService {
 
     public ProductApi buyProduct(long id) {
         Product product = getProductDto(id);
+        if (product.isSoldOut()) {
+            throw new SoldOutException("product id: ".concat(String.valueOf(id)));
+        }
         product.setUnitsInStock(product.getUnitsInStock() - 1);
+        product.setUnitsInOrder(product.getUnitsInStock() + 1);
+        if (product.getUnitsInStock() == 0) {
+            product.setSoldOut(true);
+        }
         productRepository.save(product);
         return productApiProductMapper.productDtoToProductApi(product);
     }

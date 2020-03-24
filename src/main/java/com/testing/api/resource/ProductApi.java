@@ -24,4 +24,5 @@ public class ProductApi {
     private String category;
     private Long unitsInStock;
     private Long unitsInOrder;
+    private boolean soldOut;
 }
