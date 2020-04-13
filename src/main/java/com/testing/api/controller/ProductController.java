@@ -2,7 +2,7 @@ package com.testing.api.controller;
 
 import com.testing.api.resource.ProductApi;
 import com.testing.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 @RestController
 @RequestMapping
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    ProductService productService;
+    private final ProductService productService;
 
     @GetMapping("/products")
     public List<ProductApi> getProducts() {

@@ -1,8 +1,7 @@
 package com.testing.services;
 
-import com.testing.api.mapping.ProductApiProductMapperImpl;
+import com.testing.api.mapping.ProductApiProductMapper;
 import com.testing.api.resource.ProductApi;
-import com.testing.logging.Exceptions.ProductNotFound;
 import com.testing.logging.Exceptions.SoldOutException;
 import com.testing.repository.ProductRepository;
 import com.testing.repository.entity.Product;
@@ -18,7 +17,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-    ProductApiProductMapperImpl productApiProductMapper = new ProductApiProductMapperImpl();
+    @Autowired
+    private ProductApiProductMapper productApiProductMapper;
 
     public List<ProductApi> getProducts() {
         return productApiProductMapper.clientListToClientApiList((List) productRepository.findAll());

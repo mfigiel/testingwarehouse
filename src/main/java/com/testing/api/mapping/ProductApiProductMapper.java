@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "ProductApiProductMapper")
+@Mapper(componentModel = "spring")
 public interface ProductApiProductMapper {
     ProductApi productDtoToProductApi(Product source);
     Product productApiToProductDto(ProductApi source);
