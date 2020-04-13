@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ProductApi {
 
-    public ProductApi(){};
+    public ProductApi(){}
 
     @NotNull
     private Long id;
@@ -25,4 +25,5 @@ public class ProductApi {
     private Long unitsInStock;
     private Long unitsInOrder;
     private boolean soldOut;
+    private ProductState state;
 }

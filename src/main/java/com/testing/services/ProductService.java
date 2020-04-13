@@ -2,6 +2,7 @@ package com.testing.services;
 
 import com.testing.api.mapping.ProductApiProductMapperImpl;
 import com.testing.api.resource.ProductApi;
+import com.testing.logging.Exceptions.ProductNotFound;
 import com.testing.logging.Exceptions.SoldOutException;
 import com.testing.repository.ProductRepository;
 import com.testing.repository.entity.Product;
@@ -31,25 +32,26 @@ public class ProductService {
 
     public ProductApi getProduct(long id) {
         Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("client id: " + id)));
+                .orElseThrow(() -> new EntityNotFoundException("product id: " + id)));
 
         return productApiProductMapper.productDtoToProductApi(product.get());
     }
 
     public Product getProductDto(long id) {
         Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("client id: " + id)));
+                .orElseThrow(() -> new EntityNotFoundException("product id: " + id)));
 
         return product.get();
     }
 
     public ProductApi buyProduct(long id) {
         Product product = getProductDto(id);
+
         if (product.isSoldOut()) {
             throw new SoldOutException("product id: ".concat(String.valueOf(id)));
         }
         product.setUnitsInStock(product.getUnitsInStock() - 1);
-        product.setUnitsInOrder(product.getUnitsInStock() + 1);
+        product.setUnitsInOrder(product.getUnitsInOrder() + 1);
         if (product.getUnitsInStock() == 0) {
             product.setSoldOut(true);
         }
