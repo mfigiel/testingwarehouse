@@ -2,6 +2,6 @@ package com.testing.api.resource;
 
 public enum ProductState {
     BOUGHT,
-    NOT_FOOUND,
+    NOT_FOUND,
     NONE
 }
