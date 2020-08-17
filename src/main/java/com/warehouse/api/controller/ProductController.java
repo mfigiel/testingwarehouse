@@ -1,5 +1,7 @@
 package com.warehouse.api.controller;
 
+import com.warehouse.api.resource.BuyProductsRequest;
+import com.warehouse.api.resource.BuyProductsResponse;
 import com.warehouse.api.resource.ProductApi;
 import com.warehouse.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +32,9 @@ public class ProductController {
         return productService.getProduct(id);
     }
 
-    @RequestMapping(value = "/buyProduct/{id}", method = RequestMethod.GET)
-    public ProductApi buyProductInformation(@PathVariable("id") long id) {
-        return productService.buyProduct(id);
+    @PostMapping(value = "/buyProduct")
+    public BuyProductsResponse buyProductInformation(@RequestBody BuyProductsRequest buyProductsRequest) {
+        return productService.buyProducts(buyProductsRequest);
     }
 
 }

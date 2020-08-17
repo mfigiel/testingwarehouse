@@ -25,5 +25,5 @@ public class ProductApi {
     private Long unitsInStock;
     private Long unitsInOrder;
     private boolean soldOut;
-    private ProductState state;
+    private ProductState state = ProductState.BOUGHT;
 }
