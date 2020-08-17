@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ProductApi {
 
-    public ProductApi(){};
+    public ProductApi(){}
 
     @NotNull
-    private long id;
+    private Long id;
     @NotNull
     private String name;
     @NotNull
@@ -24,4 +24,6 @@ public class ProductApi {
     private String category;
     private Long unitsInStock;
     private Long unitsInOrder;
+    private boolean soldOut;
+    private ProductState state;
 }

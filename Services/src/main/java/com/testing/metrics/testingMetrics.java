@@ -1,4 +1,4 @@
-package com.testing.metrics;
+package com.warehouse.metrics;
 
 public enum testingMetrics {
 

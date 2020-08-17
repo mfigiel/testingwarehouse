@@ -1,4 +1,4 @@
-package com.testing.api.integration;
+package com.warehouse.api.integration;
 
 public class WarehouseClient {
 

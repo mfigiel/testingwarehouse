@@ -1,8 +1,8 @@
-package com.testing.api.controller;
+package com.warehouse.api.controller;
 
-import com.testing.api.mapping.ProductApiProductMapperImpl;
-import com.testing.api.resource.ProductApi;
-import com.testing.repository.ProductRepository;
+import com.warehouse.api.mapping.ProductApiProductMapperImpl;
+import com.warehouse.api.resource.ProductApi;
+import com.warehouse.repository.ProductRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

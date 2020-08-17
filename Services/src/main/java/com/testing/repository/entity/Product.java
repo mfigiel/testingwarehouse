@@ -1,4 +1,4 @@
-package com.testing.repository.entity;
+package com.warehouse.repository.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
