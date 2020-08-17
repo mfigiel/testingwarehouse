@@ -5,7 +5,6 @@ import com.warehouse.api.resource.BuyProductsRequest;
 import com.warehouse.api.resource.BuyProductsResponse;
 import com.warehouse.api.resource.ProductApi;
 import com.warehouse.api.resource.ProductState;
-import com.warehouse.logging.Exceptions.SoldOutException;
 import com.warehouse.repository.ProductRepository;
 import com.warehouse.repository.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +34,20 @@ public class ProductService {
     }
 
     public ProductApi getProduct(long id) {
-        Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("product id: " + id)));
+        Optional<Product> product = findById(id);
 
         return productApiProductMapper.productDtoToProductApi(product.get());
     }
 
     public Product getProductDto(long id) {
-        Optional<Product> product = Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("product id: " + id)));
+        Optional<Product> product = findById(id);
 
         return product.get();
+    }
+
+    private Optional<Product> findById(long id) {
+        return Optional.ofNullable(productRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("product id: " + id)));
     }
 
     public BuyProductsResponse buyProducts(BuyProductsRequest buyProductsRequest) {
@@ -58,10 +60,13 @@ public class ProductService {
         Product product = getProductDto(id);
 
         if (product.isSoldOut()) {
-            ProductApi productApi = productApiProductMapper.productDtoToProductApi(product);
-            productApi.setState(ProductState.ALREADY_SOULD_OUT);
-            return productApi;
+            return returnProductWithAlreadySoldOutState(product);
         }
+
+        return sellProduct(product);
+    }
+
+    private ProductApi sellProduct(Product product) {
         product.setUnitsInStock(product.getUnitsInStock() - 1);
         product.setUnitsInOrder(product.getUnitsInOrder() + 1);
 
@@ -70,6 +75,12 @@ public class ProductService {
         productRepository.save(product);
 
         return productApiProductMapper.productDtoToProductApi(product);
+    }
+
+    private ProductApi returnProductWithAlreadySoldOutState(Product product) {
+        ProductApi productApi = productApiProductMapper.productDtoToProductApi(product);
+        productApi.setState(ProductState.ALREADY_SOLD_OUT);
+        return productApi;
     }
 
     private boolean ifSoldOutMarkIt(Product product) {
