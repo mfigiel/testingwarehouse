@@ -35,7 +35,6 @@ public class ProductService {
 
     public ProductApi getProduct(long id) {
         Optional<Product> product = findById(id);
-
         return productApiProductMapper.productDtoToProductApi(product.get());
     }
 

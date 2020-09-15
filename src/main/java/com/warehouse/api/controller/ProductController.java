@@ -27,7 +27,7 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/product/{id}")
     public ProductApi getProductInformation(@PathVariable("id") long id) {
         return productService.getProduct(id);
     }

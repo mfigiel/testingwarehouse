@@ -5,8 +5,6 @@ import com.warehouse.repository.entity.Product;
 import java.math.BigDecimal;
 
 public class SampleProductData {
-
-
     private static final String CATEGORY = "sampleCategory";
     private static final String DESCRIPTION = "sampleDescription";
     private static final String NAME = "sampleName";

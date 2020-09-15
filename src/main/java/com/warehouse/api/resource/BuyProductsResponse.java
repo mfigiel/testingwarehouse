@@ -3,7 +3,6 @@ package com.warehouse.api.resource;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Value
