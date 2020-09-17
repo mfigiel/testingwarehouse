@@ -1,10 +1,10 @@
 package com.warehouse.api.resource;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
